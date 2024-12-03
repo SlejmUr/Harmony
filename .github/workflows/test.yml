@@ -39,7 +39,6 @@ env:
   BUILD_CONFIGURATIONS_WITH_REF:        "['ReleaseFat', 'ReleaseThin', 'ReleaseRef']"
   DOTNET_TARGET_FRAMEWORKS:             "['netcoreapp3.0', 'netcoreapp3.1', 'net5.0', 'net6.0', 'net7.0', 'net8.0', 'net9.0']"
   DOTNET_TARGET_FRAMEWORKS_MACOS_ARM64: "['net6.0', 'net7.0', 'net8.0', 'net9.0']"
-  DOTNET_VERSIONS:                      "['3.0.x', '3.1.x', '5.0.x', '6.0.x', '7.0.x', '8.0.x','9.0.x']"
   FRAMEWORK_TARGET_FRAMEWORKS:          "['net35', 'net452', 'net472', 'net48']"
 
 
@@ -89,7 +88,6 @@ jobs:
       build_configuration: ${{matrix.build_configuration}}
       publish: ${{matrix.image.os == 'ubuntu'}}
       manual_build: ${{needs.variables.outputs.PREBUILD != 'true'}}
-      target_framework_array: ${{needs.variables.outputs.DOTNET_VERSIONS}}
 
   windows-dotnet:
     name: Windows .NET x86/x64
