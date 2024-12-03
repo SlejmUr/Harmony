@@ -84,6 +84,7 @@ jobs:
       build_configuration: ${{matrix.build_configuration}}
       publish: ${{matrix.image.os == 'ubuntu'}}
       manual_build: ${{needs.variables.outputs.PREBUILD != 'true'}}
+      target_framework_array: ${{needs.variables.outputs.DOTNET_TARGET_FRAMEWORKS}}
 
   windows-dotnet:
     name: Windows .NET x86/x64

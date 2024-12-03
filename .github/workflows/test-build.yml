@@ -26,6 +26,10 @@ on:
         required: true
         type: boolean
         description: 'Whether to publish the build artifacts'
+      target_framework_array:
+        required: true
+        type: string
+        description: 'The target frameworks to use'
 
 env:
   # Disable the .NET logo in the console output.
@@ -46,6 +50,8 @@ jobs:
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.target_framework_array }}
 
       - name: Build
         run: |
