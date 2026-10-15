@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Lib.Harmony.Thin</PackageId>
     <TargetFrameworks>$(TargetFrameworks);netstandard2.0</TargetFrameworks>
@@ -13,18 +13,9 @@
   <Import Project="..\Harmony\Harmony.projitems" Label="Shared" />
 
   <ItemGroup>
-    <None Include="..\_._" Pack="true" Visible="false" PackagePath="lib/netstandard2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Condition="'$(MonoModCoreVersion)' == ''" Include="../LocalMonoMod/src/MonoMod.Core/MonoMod.Core.csproj" />
+	  <PackageReference Include="System.Reflection.Emit" Version="4.7.0" IncludeAssets="compile" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+	  <ProjectReference Condition="'$(MonoModCoreVersion)' == ''" Include="../LocalMonoMod/src/MonoMod.Core/MonoMod.Core.csproj" />
     <PackageReference Condition="'$(MonoModCoreVersion)' != ''" Include="MonoMod.Core" Version="$(MonoModCoreVersion)" />
-  </ItemGroup>
-
-  <!-- Replace Code with reference to Lib.Harmony.Ref for netstandard2.0 -->
-  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-    <ProjectReference Include="..\Lib.Harmony.Ref\Lib.Harmony.Ref.csproj" />
-    <Compile Remove="@(Compile)" />
   </ItemGroup>
 
   <Target Name="CleanZip" AfterTargets="Clean" Condition="'$(Configuration)'=='Release'">
@@ -41,7 +32,6 @@
       <ExtraDlls Include="$(MSBuildThisFileDirectory)bin\**\System.*.*" />
     </ItemGroup>
     <Delete Files="@(ExtraDlls)" />
-    <RemoveDir Directories="$(MSBuildThisFileDirectory)bin\Release\netstandard2.0" />
   </Target>
 
   <Target Name="Zip" AfterTargets="RemoveExtraDlls" DependsOnTargets="CleanZip" Condition="'$(Configuration)'=='Release'">

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Lib.Harmony</PackageId>
     <TargetFrameworks>$(TargetFrameworks);netstandard2.0</TargetFrameworks>
@@ -13,11 +13,8 @@
 
   <Import Project="..\Harmony\Harmony.projitems" Label="Shared" />
   <ItemGroup>
-    <None Include="../_._" Pack="true" Visible="false" PackagePath="lib/netstandard2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.46" PrivateAssets="all" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" IncludeAssets="compile" Condition="'$(TargetFramework)'=='netstandard2.0'" />	  
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.48" PrivateAssets="all" />
     <ProjectReference Condition="'$(MonoModCoreVersion)' == ''" Include="../LocalMonoMod/src/MonoMod.Core/MonoMod.Core.csproj" PrivateAssets="all" />
     <PackageReference Condition="'$(MonoModCoreVersion)' != ''" Include="MonoMod.Core" Version="$(MonoModCoreVersion)" PrivateAssets="all" />
   </ItemGroup>
@@ -36,12 +33,6 @@
     <PackageReference Condition="$(TargetFramework) == 'net10.0'" Include="Microsoft.NetCore.App.Ref" Version="10.0.11" ExcludeAssets="all" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
-  <!-- Replace Code with reference to Lib.Harmony.Ref for netstandard2.0 -->
-  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-    <ProjectReference Include="..\Lib.Harmony.Ref\Lib.Harmony.Ref.csproj" />
-    <Compile Remove="@(Compile)" />
-  </ItemGroup>
-
   <Target Name="CleanZip" AfterTargets="Clean" Condition="'$(Configuration)'=='Release'">
     <ItemGroup>
       <OldZipFiles Include="$(MSBuildThisFileDirectory)..\packages\Harmony-Fat.*.zip" Condition="'$(Configuration)'=='Release'" />
@@ -56,10 +47,9 @@
       <ExtraDlls Include="$(MSBuildThisFileDirectory)bin\**\System.*.*" />
     </ItemGroup>
     <Delete Files="@(ExtraDlls)" />
-    <RemoveDir Directories="$(MSBuildThisFileDirectory)bin\Release\netstandard2.0" />
   </Target>
 
   <Target Name="Zip" AfterTargets="RemoveExtraDlls" DependsOnTargets="CleanZip" Condition="'$(Configuration)'=='Release'">
-    <ZipDirectory SourceDirectory="$(MSBuildThisFileDirectory)bin\$(Configuration)" DestinationFile="$(MSBuildThisFileDirectory)..\packages\Harmony-Fat.$(PackageVersion).zip" Overwrite="true"/>
+    <ZipDirectory SourceDirectory="$(MSBuildThisFileDirectory)bin\$(Configuration)" DestinationFile="$(MSBuildThisFileDirectory)..\packages\Harmony-Fat.$(PackageVersion).zip" Overwrite="true" />
   </Target>
 </Project>

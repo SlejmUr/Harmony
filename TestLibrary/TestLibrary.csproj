@@ -4,6 +4,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <AssemblyName>TestLibrary</AssemblyName>
+	<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.Harmony\Lib.Harmony.csproj" />
